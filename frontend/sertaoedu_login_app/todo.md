@@ -1,0 +1,28 @@
+# Todo - Tela de Login Responsiva
+
+- [x] Configurar cor azul claro no `tailwind.config.js`.
+- [x] Limpar o conteúdo padrão do `src/App.tsx`.
+- [x] Criar o componente principal `LoginPage` em `src/App.tsx`.
+- [x] Implementar o layout geral centralizado com fundo branco.
+- [x] Adicionar placeholder para o logo no topo, centralizado.
+- [x] Criar campo de E-mail:
+    - [x] Input grande e arredondado.
+    - [x] Ícone ilustrativo (ex: Mail).
+    - [x] Placeholder e label.
+- [x] Criar campo de Senha:
+    - [x] Input grande e arredondado.
+    - [x] Ícone ilustrativo (ex: Lock).
+    - [x] Placeholder e label.
+- [x] Implementar seletor de perfil (Aluno, Professor, Gestor):
+    - [x] Botões destacados para cada perfil.
+    - [x] Estilização para o botão ativo/selecionado.
+- [x] Adicionar botão 'Entrar':
+    - [x] Em destaque (cor de fundo azul claro, texto branco).
+    - [x] Grande e centralizado abaixo dos campos.
+- [x] Adicionar link 'Esqueci minha senha' abaixo do botão 'Entrar'.
+- [x] Adicionar links para 'Criar conta' e 'Suporte' na parte inferior.
+- [x] Garantir espaçamento generoso entre todos os elementos.
+- [x] Utilizar fontes grandes e legíveis.
+- [x] Assegurar responsividade em diferentes tamanhos de tela.
+- [x] Verificar e instalar `lucide-react` se necessário para os ícones.
+- [x] Testar a aparência e funcionalidade básica (sem lógica de login ainda).
