@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UnidadeTematica {
+  id          String   @id @default(cuid())
+  nome        String
+  serie       String
+  disciplina  String
+  objetos     ObjetoConhecimento[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([nome, serie, disciplina])
+}
+
+model ObjetoConhecimento {
+  id                String   @id @default(cuid())
+  nome              String
+  unidadeTematica   UnidadeTematica @relation(fields: [unidadeTematicaId], references: [id])
+  unidadeTematicaId String
+  habilidades       Habilidade[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([nome, unidadeTematicaId])
+}
+
+model Habilidade {
+  id                  String   @id @default(cuid())
+  codigo              String
+  descricao           String
+  objetoConhecimento  ObjetoConhecimento @relation(fields: [objetoConhecimentoId], references: [id])
+  objetoConhecimentoId String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@unique([codigo, objetoConhecimentoId])
+}
+
+model CompetenciaBNCC {
+  id          String   @id @default(cuid())
+  nome        String
+  ensino      String   // "fundamental" ou "medio"
+  descricao   String
+  area        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([nome, ensino])
+}
+
+model DisciplinaBNCC {
+  id                  String   @id @default(cuid())
+  codigo              String
+  nome                String
+  area                String
+  ano                 String
+  unidades_tematicas  String[]
+  objetos_conhecimento String[]
+  habilidades         HabilidadeBNCC[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@unique([codigo, ano], name: "codigo_ano")
+}
+
+model HabilidadeBNCC {
+  id           String        @id @default(cuid())
+  codigo       String        @unique
+  descricao    String
+  disciplina   DisciplinaBNCC @relation(fields: [disciplinaId], references: [id])
+  disciplinaId String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Trilha {
+  id          String       @id
+  titulo      String
+  descricao   String
+  serie       String
+  disciplina  String
+  bimestre    Int
+  topicos     Topico[]
+  planosAula  PlanoAula[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Topico {
+  id            String   @id
+  titulo        String
+  descricao     String
+  status        String
+  codigoBNCC    String?
+  descricaoBNCC String?
+  trilha        Trilha   @relation(fields: [trilhaId], references: [id])
+  trilhaId      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model PlanoAula {
+  id          String      @id @default(cuid())
+  titulo      String
+  descricao   String
+  serie       String
+  disciplina  String
+  bimestre    Int
+  objetivos   String[]
+  conteudo    String[]
+  metodologia String[]
+  avaliacao   String[]
+  trilhaId    String?
+  trilha      Trilha?     @relation(fields: [trilhaId], references: [id])
+  atividades  Atividade[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Atividade {
+  id            String     @id @default(cuid())
+  titulo        String
+  descricao     String
+  status        String
+  codigoBNCC    String?
+  descricaoBNCC String?
+  planoAulaId   String
+  planoAula     PlanoAula  @relation(fields: [planoAulaId], references: [id])
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+} 
